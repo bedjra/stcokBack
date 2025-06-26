@@ -100,17 +100,17 @@ public class ProduitController {
 //                .body(fileResource);
 //    }
 //
-//
-//    @Operation(summary = "Importation des produits")
-//    @PostMapping("/import")
-//    public ResponseEntity<?> importerProduits(@RequestParam("file") MultipartFile file) {
-//        if (file.isEmpty() || !file.getOriginalFilename().endsWith(".xlsx")) {
-//            return ResponseEntity.badRequest().body("Veuillez fournir un fichier Excel (.xlsx) valide.");
-//        }
-//
-//        List<Produit> produits = produitService.importerProduitsDepuisExcel(file);
-//        return ResponseEntity.ok("Importation réussie de " + produits.size() + " produits.");
-//    }
+
+    @Operation(summary = "Importation des produits")
+    @PostMapping("/import")
+    public ResponseEntity<?> importerProduits(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty() || !file.getOriginalFilename().endsWith(".xlsx")) {
+            return ResponseEntity.badRequest().body("Veuillez fournir un fichier Excel (.xlsx) valide.");
+        }
+
+        List<Produit> produits = produitService.importerProduitsDepuisExcel(file);
+        return ResponseEntity.ok("Importation réussie de " + produits.size() + " produits.");
+    }
 
 
 
