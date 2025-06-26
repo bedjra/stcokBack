@@ -24,6 +24,10 @@ public class CategorieService {
     @Autowired
     private ProduitRepos produitRepository;
 
+    public long getNombreTotalCategories() {
+        return categorieRepository.count();
+    }
+
     public List<CategorieDto> getAllCategories() {
         return categorieRepository.findAll()
                 .stream()

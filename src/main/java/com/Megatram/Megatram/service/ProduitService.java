@@ -18,6 +18,9 @@ import com.google.zxing.common.BitMatrix;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,9 +46,12 @@ public class ProduitService {
     @Autowired
     private EntrepotRepository entrepotRepository;
 
+
+
     public long getNombreTotalProduits() {
         return produitRepository.count(); // ou countAllProduits()
     }
+
 
     public ProduitDto createProduit(ProduitDto dto) {
         Produit produit = new Produit();
@@ -103,6 +109,9 @@ public class ProduitService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
+
+
+
 
 
     public ProduitDto getProduitById(Long id) {
