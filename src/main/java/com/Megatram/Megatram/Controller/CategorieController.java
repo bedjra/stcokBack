@@ -27,6 +27,13 @@ public class CategorieController {
     @Autowired
     private CategorieService categorieService;
 
+    @Operation(summary = "total")
+    @GetMapping("/total")
+    public ResponseEntity<Long> getNombreTotalCategories() {
+        long total = categorieService.getNombreTotalCategories();
+        return ResponseEntity.ok(total);
+    }
+
     @Operation(summary = "all ")
     @GetMapping
     public List<CategorieDto> getAllCategories() {
