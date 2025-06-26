@@ -3,9 +3,10 @@ package com.Megatram.Megatram.repository;
 import com.Megatram.Megatram.Entity.Categorie;
 import com.Megatram.Megatram.Entity.Produit;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface ProduitRepos extends JpaRepository<Produit, Long> {
     Produit findByCodeBarre(String codeBarre);
-    Long countByCategorie(Categorie categorie);
-
+    @Query("SELECT COUNT(p) FROM Produit p")
+    long countAllProduits();
 }

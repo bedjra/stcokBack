@@ -36,6 +36,13 @@ public class ProduitController {
     @Autowired
     private ProduitService produitService;
 
+    @Operation(summary = "total")
+    @GetMapping("/total")
+    public ResponseEntity<Long> getNombreTotalProduits() {
+        long total = produitService.getNombreTotalProduits();
+        return ResponseEntity.ok(total);
+    }
+
     @Operation(summary = "add un produit")
     @PostMapping
     public ResponseEntity<ProduitDto> createProduit(@RequestBody ProduitDto produitDto) {

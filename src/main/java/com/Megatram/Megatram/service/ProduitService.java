@@ -43,7 +43,9 @@ public class ProduitService {
     @Autowired
     private EntrepotRepository entrepotRepository;
 
-
+    public long getNombreTotalProduits() {
+        return produitRepository.count(); // ou countAllProduits()
+    }
 
     public ProduitDto createProduit(ProduitDto dto) {
         Produit produit = new Produit();
