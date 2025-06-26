@@ -112,8 +112,6 @@ public class ProduitService {
 
 
 
-
-
     public ProduitDto getProduitById(Long id) {
         return produitRepository.findById(id)
                 .map(this::mapToDto)
@@ -270,13 +268,7 @@ public class ProduitService {
     }
 
 
-    /**
-     * Charge l'image PNG du code-barres d'un produit.
-     *
-     * @param id l'identifiant du produit
-     * @return la ressource image
-     * @throws MalformedURLException si le chemin est invalide
-     */
+
     public UrlResource loadBarcodeImage(Long id) throws MalformedURLException {
         Produit produit = produitRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé: " + id));
