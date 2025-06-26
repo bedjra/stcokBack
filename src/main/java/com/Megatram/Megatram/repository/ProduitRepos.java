@@ -12,5 +12,6 @@ public interface ProduitRepos extends JpaRepository<Produit, Long> {
     @Query("SELECT COUNT(p) FROM Produit p")
     long countAllProduits();
     Page<Produit> findAll(Pageable pageable);
+    Produit findByNom(String nom);
 
 }
