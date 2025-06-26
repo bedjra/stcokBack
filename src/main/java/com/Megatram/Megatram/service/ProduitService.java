@@ -65,23 +65,20 @@ public class ProduitService {
     }
 
 
-    public List<ProduitDto> getAllProduitsDto() {
-        List<Produit> produits = produitRepository.findAll();
-
-        return produits.stream()
-                .map(p -> {
-                    ProduitDto dto = new ProduitDto();
-                    dto.setId(p.getId());
-                    dto.setNom(p.getNom());
-                    dto.setRef(p.getRef());
-                    dto.setQte(p.getQte());
-                    dto.setPrix(p.getPrix());
-                    dto.setCodeBarre(p.getCodeBarre());
-                    dto.setCategorieId(p.getCategorie() != null ? p.getCategorie().getId() : null);
-                    return dto;
-                })
-                .toList();
+    public List<ProduitDto> getAllProduits() {
+        return produitRepository.findAll().stream().map(p -> {
+            ProduitDto dto = new ProduitDto();
+            dto.setId(p.getId());
+            dto.setNom(p.getNom());
+            dto.setRef(p.getRef());
+            dto.setQte(p.getQte());
+            dto.setPrix(p.getPrix());
+            dto.setCodeBarre(p.getCodeBarre());
+            dto.setCategorie(p.getCategorie() != null ? p.getCategorie().getNom() : null);
+            return dto;
+        }).toList();
     }
+
 
 
 

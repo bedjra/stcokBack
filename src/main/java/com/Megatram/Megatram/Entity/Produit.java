@@ -24,6 +24,10 @@ public class Produit {
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
+    @ManyToOne
+    @JoinColumn(name = "entrepot_id")
+    private Entrepot entrepot;
+
 
     // Getters et Setters
 
@@ -97,5 +101,13 @@ public class Produit {
 
     public void setQteMin(int qteMin) {
         this.qteMin = qteMin;
+    }
+
+    public Entrepot getEntrepot() {
+        return entrepot;
+    }
+
+    public void setEntrepot(Entrepot entrepot) {
+        this.entrepot = entrepot;
     }
 }

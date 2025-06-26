@@ -8,7 +8,7 @@ public class ProduitDto {
     private int qte;
     private double prix;
     private String codeBarre;
-    private Long categorieId; // ✅ on remplace le nom par l'identifiant
+    private String  categorie; // ✅ on remplace le nom par l'identifiant
 
 
     // Getters et setters
@@ -61,11 +61,11 @@ public class ProduitDto {
         this.codeBarre = codeBarre;
     }
 
-    public Long getCategorieId() {
-        return categorieId;
+    public String getCategorie() {
+        return categorie;
     }
 
-    public void setCategorieId(Long categorieId) {
-        this.categorieId = categorieId;
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
     }
 }

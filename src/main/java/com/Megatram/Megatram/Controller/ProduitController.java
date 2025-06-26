@@ -53,10 +53,9 @@ public class ProduitController {
 
     @Operation(summary = "Liste de tous les produits")
     @GetMapping
-    public ResponseEntity<List<ProduitDto>> getAllProduitsDto() {
-        return ResponseEntity.ok(produitService.getAllProduitsDto());
+    public ResponseEntity<List<ProduitDto>> getAllProduits() {
+        return ResponseEntity.ok(produitService.getAllProduits());
     }
-
 
     @Operation(summary = "Récupérer un produit par ID")
     @GetMapping("/{id}")
