@@ -16,36 +16,52 @@ public class EntrepotService {
     @Autowired
     private EntrepotRepository entrepotRepository;
 
-    // 🟢 Create or Update
-    public Entrepot saveEntrepot(Entrepot entrepot) {
+    public Entrepot create(EntrepotDto dto) {
+        Entrepot entrepot = new Entrepot();
+        entrepot.setNom(dto.getNom());
+        entrepot.setRef(dto.getRef());
         return entrepotRepository.save(entrepot);
     }
 
-    // 🔵 Read All
     public List<EntrepotDto> getAll() {
-        return entrepotRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
+        return entrepotRepository.findAll().stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
-    // 🔵 Read One by ID
     public EntrepotDto getById(Long id) {
         Entrepot entrepot = entrepotRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Entrepôt introuvable avec ID : " + id));
-        return toDto(entrepot);
+                .orElseThrow(() -> new RuntimeException("Entrepôt non trouvé"));
+        return mapToDto(entrepot);
     }
 
-    // 🔴 Delete
+    public Entrepot update(Long id, EntrepotDto dto) {
+        Entrepot entrepot = entrepotRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entrepôt non trouvé"));
+        entrepot.setNom(dto.getNom());
+        entrepot.setRef(dto.getRef());
+        return entrepotRepository.save(entrepot);
+    }
+
     public void delete(Long id) {
         entrepotRepository.deleteById(id);
     }
 
-    // 🟡 Mapping Entité → DTO
-    private EntrepotDto toDto(Entrepot e) {
+    public void deleteEntrepotsByIds(List<Long> ids) {
+        entrepotRepository.deleteAllById(ids);
+    }
+
+    public void deleteAllEntrepots() {
+        entrepotRepository.deleteAll();
+    }
+
+    private EntrepotDto mapToDto(Entrepot entrepot) {
         EntrepotDto dto = new EntrepotDto();
-        dto.setId(e.getId());
-        dto.setNom(e.getNom());
-        dto.setRef(e.getRef());
-        dto.setQuantite(e.getQuantite());
-        dto.setValeurVente(e.getValeurVente());
+        dto.setId(entrepot.getId());
+        dto.setNom(entrepot.getNom());
+        dto.setRef(entrepot.getRef());
+        dto.setQuantite(entrepot.getQuantite()); // appel au getter @Transient
+        dto.setValeurVente(entrepot.getValeurVente());
         return dto;
     }
 }

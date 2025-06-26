@@ -1,6 +1,7 @@
 package com.Megatram.Megatram.service;
 
 
+import com.Megatram.Megatram.Dto.CategorieDto;
 import com.Megatram.Megatram.Entity.Categorie;
 import com.Megatram.Megatram.repository.CategorieRep;
 import com.Megatram.Megatram.repository.ProduitRepos;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CategorieService {
@@ -22,44 +24,47 @@ public class CategorieService {
     @Autowired
     private ProduitRepos produitRepository;
 
-    public List<Categorie> getAll() {
-        return categorieRepository.findAll();
+    public List<CategorieDto> getAllCategories() {
+        return categorieRepository.findAll()
+                .stream()
+                .map(c -> {
+                    CategorieDto dto = new CategorieDto();
+                    dto.setId(c.getId());
+                    dto.setNom(c.getNom());
+                    dto.setnProd(c.getProduits() != null ? c.getProduits().size() : 0);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
-    public List<Map<String, Object>> getAllWithProductCount() {
-        List<Categorie> categories = categorieRepository.findAll();
-        List<Map<String, Object>> result = new ArrayList<>();
-
-        for (Categorie cat : categories) {
-            Long count = produitRepository.countByCategorie(cat);
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", cat.getId());
-            map.put("nom", cat.getNom());
-            map.put("nbProduits", count);
-            result.add(map);
-        }
-        return result;
-    }
-
-    public Categorie getById(Long id) {
-        return categorieRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Categorie non trouvée avec ID: " + id));
-    }
-
-    public Categorie create(Categorie categorie) {
+    public Categorie addCategorie(CategorieDto dto) {
+        Categorie categorie = new Categorie();
+        categorie.setNom(dto.getNom());
         return categorieRepository.save(categorie);
     }
 
-    public Categorie update(Long id, Categorie data) {
-        Categorie existing = getById(id);
-        existing.setNom(data.getNom());
-        return categorieRepository.save(existing);
+    public void deleteCategorie(Long id) {
+        categorieRepository.deleteById(id);
+    }
+    public void deleteCategoriesByIds(List<Long> ids) {
+        categorieRepository.deleteAllById(ids);
     }
 
-    public void delete(Long id) {
-        if (!categorieRepository.existsById(id)) {
-            throw new EntityNotFoundException("Categorie non trouvée avec ID: " + id);
-        }
-        categorieRepository.deleteById(id);
+    public void deleteAllCategories() {
+        categorieRepository.deleteAll();
+    }
+
+
+
+    public Categorie getById(Long id) {
+        return categorieRepository.findById(id)
+                .orElse(null); // Ou tu peux lancer une exception si tu veux
+    }
+
+    public Categorie updateCategorie(Long id, CategorieDto dto) {
+        return categorieRepository.findById(id).map(categorie -> {
+            categorie.setNom(dto.getNom());
+            return categorieRepository.save(categorie);
+        }).orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
     }
 }

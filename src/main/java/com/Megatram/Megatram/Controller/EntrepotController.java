@@ -22,8 +22,8 @@ public class EntrepotController {
 
     @Operation(summary = "all ")
     @GetMapping
-    public ResponseEntity<List<EntrepotDto>> getAll() {
-        return ResponseEntity.ok(entrepotService.getAll());
+    public List<EntrepotDto> getAll() {
+        return entrepotService.getAll();
     }
 
     @Operation(summary = "get by id ")
@@ -34,21 +34,36 @@ public class EntrepotController {
 
     @Operation(summary = "add ")
     @PostMapping
-    public ResponseEntity<Entrepot> create(@RequestBody Entrepot entrepot) {
-        return ResponseEntity.ok(entrepotService.saveEntrepot(entrepot));
+    public ResponseEntity<EntrepotDto> create(@RequestBody EntrepotDto dto) {
+        Entrepot saved = entrepotService.create(dto);
+        return ResponseEntity.status(201).body(entrepotService.getById(saved.getId()));
     }
 
     @Operation(summary = "put ")
     @PutMapping("/{id}")
-    public ResponseEntity<Entrepot> update(@PathVariable Long id, @RequestBody Entrepot entrepot) {
-        entrepot.setId(id);
-        return ResponseEntity.ok(entrepotService.saveEntrepot(entrepot));
+    public ResponseEntity<EntrepotDto> update(@PathVariable Long id, @RequestBody EntrepotDto dto) {
+        entrepotService.update(id, dto);
+        return ResponseEntity.ok(entrepotService.getById(id));
     }
 
-    // 🔴 Suppression
+    @Operation(summary = "delete ")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         entrepotService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Supprimer plusieurs entrepôts ou tous")
+    @DeleteMapping
+    public ResponseEntity<Void> deleteByIdsOrAll(@RequestBody List<Long> ids) {
+        if (ids == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (ids.isEmpty()) {
+            entrepotService.deleteAllEntrepots();
+        } else {
+            entrepotService.deleteEntrepotsByIds(ids);
+        }
         return ResponseEntity.noContent().build();
     }
 }

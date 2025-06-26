@@ -1,5 +1,11 @@
 package com.Megatram.Megatram.Controller;
 
+import com.Megatram.Megatram.Dto.CategorieDto;
+import io.swagger.v3.oas.annotations.Operation;
+
+import java.util.List;
+
+
 import com.Megatram.Megatram.Entity.Categorie;
 import com.Megatram.Megatram.service.CategorieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,32 +29,58 @@ public class CategorieController {
 
     @Operation(summary = "all ")
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> getAll() {
-        return ResponseEntity.ok(categorieService.getAllWithProductCount());
+    public List<CategorieDto> getAllCategories() {
+        return categorieService.getAllCategories();
     }
 
-    @Operation(summary = "get by id ")
+
+    @Operation(summary = "Récupérer une catégorie par son ID")
     @GetMapping("/{id}")
-    public Categorie getById(@PathVariable Long id) {
-        return categorieService.getById(id);
+    public ResponseEntity<Categorie> getCategorieById(@PathVariable Long id) {
+        Categorie categorie = categorieService.getById(id);
+        if (categorie != null) {
+            return ResponseEntity.ok(categorie);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Operation(summary = "add ")
     @PostMapping
-    public Categorie create(@RequestBody Categorie categorie) {
-        return categorieService.create(categorie);
+    public Categorie addCategorie(@RequestBody CategorieDto dto) {
+        return categorieService.addCategorie(dto);
     }
 
     @Operation(summary = "put ")
     @PutMapping("/{id}")
-    public Categorie update(@PathVariable Long id, @RequestBody Categorie categorie) {
-        return categorieService.update(id, categorie);
+    public Categorie updateCategorie(@PathVariable Long id, @RequestBody CategorieDto dto) {
+        return categorieService.updateCategorie(id, dto);
     }
 
     @Operation(summary = "delete by id ")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        categorieService.delete(id);
-        return ResponseEntity.ok().build();
+    public void deleteCategorie(@PathVariable Long id) {
+        categorieService.deleteCategorie(id);
     }
+
+
+    @Operation(summary = "Supprimer plusieurs catégories ou toutes")
+    @DeleteMapping
+    public ResponseEntity<Void> deleteByIdsOrAll(
+            @RequestBody List<Long> ids
+    ) {
+        if (ids == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (ids.isEmpty()) {
+            categorieService.deleteAllCategories();
+        } else {
+            categorieService.deleteCategoriesByIds(ids);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
 }

@@ -8,10 +8,35 @@ public class ProduitDto {
     private int qte;
     private double prix;
     private String codeBarre;
-    private String  categorie; // ✅ on remplace le nom par l'identifiant
-
+    private Long categorieId;
+    private Long entrepotId;
+    private int qteMin;
 
     // Getters et setters
+
+    public Long getEntrepotId() {
+        return entrepotId;
+    }
+
+    public int getQteMin() {
+        return qteMin;
+    }
+
+    public void setQteMin(int qteMin) {
+        this.qteMin = qteMin;
+    }
+
+    public void setEntrepotId(Long entrepotId) {
+        this.entrepotId = entrepotId;
+    }
+
+    public Long getCategorieId() {
+        return categorieId;
+    }
+
+    public void setCategorieId(Long categorieId) {
+        this.categorieId = categorieId;
+    }
 
     public Long getId() {
         return id;
@@ -61,11 +86,5 @@ public class ProduitDto {
         this.codeBarre = codeBarre;
     }
 
-    public String getCategorie() {
-        return categorie;
-    }
 
-    public void setCategorie(String categorie) {
-        this.categorie = categorie;
-    }
 }

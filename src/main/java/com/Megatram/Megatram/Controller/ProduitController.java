@@ -1,5 +1,6 @@
 package com.Megatram.Megatram.Controller;
 
+import com.Megatram.Megatram.Dto.AssignationProduitsDTO;
 import com.Megatram.Megatram.Dto.ProduitDto;
 import com.Megatram.Megatram.Entity.Produit;
 import com.Megatram.Megatram.repository.ProduitRepos;
@@ -37,43 +38,77 @@ public class ProduitController {
 
     @Operation(summary = "add un produit")
     @PostMapping
-    public ResponseEntity<String> ajouterProduit(@RequestBody Produit produit) throws Exception {
-        // 1. Sauvegarder le produit (génère automatiquement le code-barres)
-        Produit saved = produitRepository.save(produit);
-
-        // 2. Nom du fichier d’image
-        String filename = "barcode-" + saved.getId() + ".png";
-
-        // 3. Générer l'image du code-barres
-        produitService.generateBarcodeImage(saved.getCodeBarre(), filename);
-
-        // 4. Retourner juste un message
-        return ResponseEntity.status(201).body("Produit bien ajouté");
+    public ResponseEntity<ProduitDto> createProduit(@RequestBody ProduitDto produitDto) {
+        ProduitDto savedProduit = produitService.createProduit(produitDto);
+        return ResponseEntity.ok(savedProduit);
     }
 
-    @Operation(summary = "Liste de tous les produits")
+    @Operation(summary = "Importation des produits")
+    @PostMapping(path = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> importerProduits(
+            @RequestParam("file") MultipartFile file
+    ) {
+        if (file.isEmpty() || !file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            return ResponseEntity.badRequest()
+                    .body("Veuillez fournir un fichier Excel (.xlsx) valide.");
+        }
+        List<Produit> produits = produitService.importerProduitsDepuisExcel(file);
+        return ResponseEntity.ok("Importation réussie de " + produits.size() + " produits.");
+    }
+
+
+    @Operation(summary = "all ")
     @GetMapping
-    public ResponseEntity<List<ProduitDto>> getAllProduits() {
+    public ResponseEntity<List<ProduitDto>> getAll() {
         return ResponseEntity.ok(produitService.getAllProduits());
     }
 
-    @Operation(summary = "Récupérer un produit par ID")
+    @Operation(summary = "Récupérer un produit par son ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Produit> getProduitById(@PathVariable Long id) {
-        return produitService.getProduitById(id);
+    public ResponseEntity<ProduitDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(produitService.getProduitById(id));
     }
 
-    @Operation(summary = "Mettre à jour un produit")
+    @Operation(summary = "put ")
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduit(@PathVariable Long id, @RequestBody Produit produit) {
-        return produitService.updateProduit(id, produit);
+    public ResponseEntity<ProduitDto> update(
+            @PathVariable Long id,
+            @RequestBody ProduitDto dto
+    ) {
+        return ResponseEntity.ok(produitService.updateProduit(id, dto));
     }
 
-    @Operation(summary = "Supprimer un produit")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduit(@PathVariable Long id) {
-        return produitService.deleteProduit(id);
+    @PutMapping("/assignation")
+    public ResponseEntity<String> assignerCategorieEtEntrepot(@RequestBody AssignationProduitsDTO dto) {
+        produitService.assignerCategorieEtEntrepot(dto);
+        return ResponseEntity.ok("Assignation effectuée avec succès.");
     }
+
+    @Operation(summary = "delete by id ")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        produitService.deleteProduit(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "delete by n ou tous id ")
+    @DeleteMapping
+    public ResponseEntity<Void> deleteByIdsOrAll(
+            @RequestBody List<Long> ids
+    ) {
+        if (ids == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (ids.isEmpty()) {
+            produitService.deleteAllProduits();
+        } else {
+            produitService.deleteProduitsByIds(ids);
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 
     @Operation(summary = "Get un barcode by id")
     @GetMapping("/code/{id}")
@@ -101,15 +136,14 @@ public class ProduitController {
     }
 
 
-    @Operation(summary = "Importation des produits")
-    @PostMapping("/import")
-    public ResponseEntity<?> importerProduits(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty() || !file.getOriginalFilename().endsWith(".xlsx")) {
-            return ResponseEntity.badRequest().body("Veuillez fournir un fichier Excel (.xlsx) valide.");
-        }
-
-        List<Produit> produits = produitService.importerProduitsDepuisExcel(file);
-        return ResponseEntity.ok("Importation réussie de " + produits.size() + " produits.");
+    @Operation(summary = "Get un barcode by id")
+    @GetMapping(path = "/code/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<Resource> getBarcodeById(@PathVariable Long id) throws IOException {
+        Resource img = produitService.loadBarcodeImage(id);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(img);
     }
 
 
