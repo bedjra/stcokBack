@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,31 +76,31 @@ public class ProduitController {
         return produitService.deleteProduit(id);
     }
 
-//    @Operation(summary = "Get un barcode by id")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Resource> getBarcodeImageByProduitId(@PathVariable Long id) throws IOException {
-//        // Recherche du produit par son ID
-//        Optional<Produit> optionalProduit = produitRepository.findById(id);
-//
-//        if (optionalProduit.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        // Construction du chemin vers l’image générée (ex: barcodes/barcode-1.png)
-//        String filename = "barcode-" + id + ".png";
-//        Path imagePath = Paths.get("barcodes").resolve(filename);
-//
-//        if (!Files.exists(imagePath)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Resource fileResource = new UrlResource(imagePath.toUri());
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_PNG)
-//                .body(fileResource);
-//    }
-//
+    @Operation(summary = "Get un barcode by id")
+    @GetMapping("/code/{id}")
+    public ResponseEntity<Resource> getBarcodeImageByProduitId(@PathVariable Long id) throws IOException {
+        // Recherche du produit par son ID
+        Optional<Produit> optionalProduit = produitRepository.findById(id);
+
+        if (optionalProduit.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Construction du chemin vers l’image générée (ex: barcodes/barcode-1.png)
+        String filename = "barcode-" + id + ".png";
+        Path imagePath = Paths.get("barcodes").resolve(filename);
+
+        if (!Files.exists(imagePath)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource fileResource = new UrlResource(imagePath.toUri());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(fileResource);
+    }
+
 
     @Operation(summary = "Importation des produits")
     @PostMapping("/import")
@@ -113,17 +114,15 @@ public class ProduitController {
     }
 
 
-
-
-//    @GetMapping("/code/{codeBarre}")
-//    public ResponseEntity<?> getProduitByCode(@PathVariable String codeBarre) {
-//        Produit produit = produitRepository.findByCodeBarre(codeBarre);
-//        if (produit != null) {
-//            return ResponseEntity.ok(produit);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
-//        }
-//    }
+    @GetMapping("/code/{codeBarre}")
+    public ResponseEntity<?> getProduitByCode(@PathVariable String codeBarre) {
+        Produit produit = produitRepository.findByCodeBarre(codeBarre);
+        if (produit != null) {
+            return ResponseEntity.ok(produit);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+        }
+    }
 
 
 }
