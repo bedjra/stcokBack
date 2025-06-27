@@ -1,24 +1,49 @@
-//package com.Megatram.Megatram.Controller;
+package com.Megatram.Megatram.Controller;
+
+
+import com.Megatram.Megatram.service.StockService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+@RestController
+@RequestMapping("/api/Stock")
+@Tag(name = "Stock", description = "Gestion des Stock")
+@CrossOrigin(origins = "http://localhost:3000")
+
+public class StockApi {
+
+    @Autowired
+    private StockService stockService;
+
+//    @GetMapping("/etat")
+//    public ResponseEntity<Integer> getEtatStock(
+//            @RequestParam Long produitId,
+//            @RequestParam Long entrepotId,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+//    ) {
+//        Date dateLimite = java.sql.Date.valueOf(date);
+//        int etatStock = stockService.getEtatStock(produitId, entrepotId, dateLimite);
+//        return ResponseEntity.ok(etatStock);
+//    }
 //
-//
-//import com.Megatram.Megatram.Dto.StockDto;
-//import com.Megatram.Megatram.service.StockService;
-//import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@CrossOrigin(origins = "http://localhost:3000")
-//@RestController
-//@RequestMapping("/api/Stock")
-//@Tag(name = "Stock", description = "Gestion des Stock")
-//
-//public class StockApi {
-//
-//    @Autowired
-//    private StockService stockService;
-//
+//    @GetMapping("/etat-global")
+//    public ResponseEntity<Integer> getTotalStockEntrepotAUneDate(
+//            @RequestParam Long entrepotId,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+//    ) {
+//        Date dateLimite = java.sql.Date.valueOf(date);
+//        int total = stockService.getTotalStockDansEntrepotAUneDate(entrepotId, dateLimite);
+//        return ResponseEntity.ok(total);
+//    }
+
+
+
 //    @GetMapping
 //    public List<StockDto> getAllStocks() {
 //        return stockService.getAllStocks();
@@ -44,4 +69,4 @@
 //        stockService.deleteStock(id);
 //    }
 //
-//}
+}

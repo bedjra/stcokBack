@@ -24,10 +24,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/produit")
 @Tag(name = "Produit", description = "Gestion des Produits")
+@CrossOrigin(origins = "http://localhost:3000")
 
 public class ProduitController {
 

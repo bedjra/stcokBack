@@ -1,39 +1,63 @@
-//package com.Megatram.Megatram.service;
+package com.Megatram.Megatram.service;
+
+import com.Megatram.Megatram.Dto.StockDto;
+import com.Megatram.Megatram.Entity.Entrepot;
+import com.Megatram.Megatram.Entity.Produit;
+import com.Megatram.Megatram.Entity.Stock;
+import com.Megatram.Megatram.enums.TypeMouvement;
+import com.Megatram.Megatram.repository.EntrepotRepository;
+import com.Megatram.Megatram.repository.ProduitRepos;
+import com.Megatram.Megatram.repository.StockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+@Service
+public class StockService {
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    @Autowired
+    private ProduitRepos produitRepository;
+
+    @Autowired
+    private EntrepotRepository entrepotRepository;
+
+
+//    public List<StockDto> getEtatStockParNoms(String produitNom, String entrepotNom, Date dateLimite) {
+//        Produit produit = produitRepository.findByNom(produitNom)
+//                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+//        Entrepot entrepot = entrepotRepository.findByNom(entrepotNom)
+//                .orElseThrow(() -> new RuntimeException("Entrepôt introuvable"));
 //
-//
-//import com.Megatram.Megatram.Dto.StockDto;
-//import com.Megatram.Megatram.Entity.Entrepot;
-//import com.Megatram.Megatram.Entity.Produit;
-//import com.Megatram.Megatram.Entity.Stock;
-//import com.Megatram.Megatram.repository.EntrepotRepository;
-//import com.Megatram.Megatram.repository.ProduitRepos;
-//import com.Megatram.Megatram.repository.StockRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.Optional;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class StockService {
-//
-//    @Autowired
-//    private StockRepository stockRepository;
-//
-//    @Autowired
-//    private ProduitRepos produitRepository;
-//
-//    @Autowired
-//    private EntrepotRepository entrepotRepository;
-//
-//    public List<StockDto> getAllStocks() {
-//        return stockRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+//        return getEtatStockParProduitEtEntrepot(produit.getId(), entrepot.getId(), dateLimite);
 //    }
 //
-//    public StockDto getStockById(Long id) {
-//        return stockRepository.findById(id).map(this::convertToDto).orElse(null);
+//
+//    public List<StockDto> getEtatGlobalParEntrepotNom(String entrepotNom, Date dateLimite) {
+//        Entrepot entrepot = entrepotRepository.findByNom(entrepotNom)
+//                .orElseThrow(() -> new RuntimeException("Entrepôt introuvable"));
+//
+//        return getEtatGlobalParEntrepot(entrepot.getId(), dateLimite);
 //    }
+//
+
+
+}
+//
+//public List<StockDto> getAllStocks() {
+//    return stockRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+//}
+//
+//public StockDto getStockById(Long id) {
+//    return stockRepository.findById(id).map(this::convertToDto).orElse(null);
+//}
 //
 //    public StockDto createStock(StockDto dto) {
 //        Produit produit = produitRepository.findByNom(dto.getProduitNom());
