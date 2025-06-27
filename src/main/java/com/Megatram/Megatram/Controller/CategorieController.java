@@ -19,7 +19,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("categorie")
+@RequestMapping("/api/categorie")
 @Tag(name = "Categorie", description = "Gestion des Categories")
 
 public class CategorieController {

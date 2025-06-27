@@ -26,7 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/barcode")
+@RequestMapping("/api/barcode")
 public class BarcodeController {
 
     private final ProduitRepos produitRepository;
@@ -102,15 +102,15 @@ public class BarcodeController {
 
         Path pdfPath = dossierBarcodes.resolve("print_" + produit.getId() + ".pdf");
 
-        Document document = new Document(PageSize.A4, 36, 75, 75, 76); // marges
+        Document document = new Document(PageSize.A4, 36, 75, 5, 10); // marges
         PdfWriter.getInstance(document, Files.newOutputStream(pdfPath));
         document.open();
 
         Image barcodeImage = Image.getInstance(barcodePath.toAbsolutePath().toString());
-        barcodeImage.scaleToFit(140f, 90f); // taille raisonnable pour bien remplir la page
+        barcodeImage.scaleToFit(40f, 90f); // taille raisonnable pour bien remplir la page
 
         int columns = 3;
-        int perPage = 15;
+        int perPage = 18;
         int count = 0;
 
         PdfPTable table = createNewTable(columns);
@@ -121,7 +121,7 @@ public class BarcodeController {
             cell.setBorder(Rectangle.NO_BORDER);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPadding(10f); // espace autour
+            cell.setPadding(5f); // espace autour
             table.addCell(cell);
             count++;
 

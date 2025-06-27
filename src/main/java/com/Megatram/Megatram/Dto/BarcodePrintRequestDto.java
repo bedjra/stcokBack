@@ -5,7 +5,6 @@ public class BarcodePrintRequestDto {
 
     private String produitNom;
     private int quantite;
-    private int parPage;
 
     // Constructeurs
     public BarcodePrintRequestDto() {}
@@ -13,7 +12,6 @@ public class BarcodePrintRequestDto {
     public BarcodePrintRequestDto(String produitNom, int quantite, int parPage) {
         this.produitNom = produitNom;
         this.quantite = quantite;
-        this.parPage = parPage;
     }
 
     // Getters et Setters
@@ -35,11 +33,5 @@ public class BarcodePrintRequestDto {
         this.quantite = quantite;
     }
 
-    public int getParPage() {
-        return parPage;
-    }
 
-    public void setParPage(int parPage) {
-        this.parPage = parPage;
-    }
 }

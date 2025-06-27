@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/entrepot")
+@RequestMapping("/api/entrepot")
 @Tag(name = "Entrepot", description = "Gestion des Categoriesentrepot")
 public class EntrepotController {
 

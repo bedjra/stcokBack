@@ -11,7 +11,7 @@
 //
 //@CrossOrigin(origins = "http://localhost:3000")
 //@RestController
-//@RequestMapping("/Stock")
+//@RequestMapping("/api/Stock")
 //@Tag(name = "Stock", description = "Gestion des Stock")
 //
 //public class StockApi {
