@@ -1,8 +1,8 @@
 package com.Megatram.Megatram.Controller;
 
 
-import com.Megatram.Megatram.Entity.Facture;
-import com.Megatram.Megatram.service.FactureService;
+import com.Megatram.Megatram.Entity.ModeleRecu;
+import com.Megatram.Megatram.service.ModeleRcuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -11,40 +11,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/facture")
+@RequestMapping("/api/Modele")
 @Tag(name = "Facture", description = "CRUD pour l'entité Facture")
-public class FactureController {
+@CrossOrigin(origins = "http://localhost:3000")
 
-    private final FactureService factureService;
+public class ModeleRecuController {
 
-    public FactureController(FactureService factureService) {
-        this.factureService = factureService;
+    private final ModeleRcuService modeleRcuService;
+
+    public ModeleRecuController(ModeleRcuService modeleRcuService) {
+        this.modeleRcuService = modeleRcuService;
     }
 
     @Operation(summary = "Créer une facture")
     @PostMapping
-    public ResponseEntity<Facture> createFacture(@RequestBody Facture facture) {
-        return ResponseEntity.ok(factureService.saveFacture(facture));
+    public ResponseEntity<ModeleRecu> createFacture(@RequestBody ModeleRecu modeleRecu) {
+        return ResponseEntity.ok(modeleRcuService.saveFacture(modeleRecu));
     }
 
     @Operation(summary = "Liste de toutes les factures")
     @GetMapping
-    public ResponseEntity<List<Facture>> getAllFactures() {
-        return ResponseEntity.ok(factureService.getAllFactures());
+    public ResponseEntity<List<ModeleRecu>> getAllFactures() {
+        return ResponseEntity.ok(modeleRcuService.getAllFactures());
     }
 
     @Operation(summary = "Obtenir une facture par ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Facture> getFactureById(@PathVariable String id) {
-        return factureService.getFactureById(id)
+    public ResponseEntity<ModeleRecu> getFactureById(@PathVariable String id) {
+        return modeleRcuService.getFactureById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Mettre à jour une facture")
     @PutMapping("/{id}")
-    public ResponseEntity<Facture> updateFacture(@PathVariable String id, @RequestBody Facture facture) {
-        Facture updated = factureService.updateFacture(id, facture);
+    public ResponseEntity<ModeleRecu> updateFacture(@PathVariable String id, @RequestBody ModeleRecu modeleRecu) {
+        ModeleRecu updated = modeleRcuService.updateFacture(id, modeleRecu);
         if (updated != null) {
             return ResponseEntity.ok(updated);
         } else {
@@ -55,7 +57,7 @@ public class FactureController {
     @Operation(summary = "Supprimer une facture")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFacture(@PathVariable String id) {
-        factureService.deleteFacture(id);
+        modeleRcuService.deleteFacture(id);
         return ResponseEntity.noContent().build();
     }
 }

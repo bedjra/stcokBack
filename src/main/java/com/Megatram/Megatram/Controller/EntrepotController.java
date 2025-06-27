@@ -14,7 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/entrepot")
-@Tag(name = "Entrepot", description = "Gestion des Categoriesentrepot")
+@Tag(name = "Entrepot", description = "Gestion des entrepot")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class EntrepotController {
 
     @Autowired

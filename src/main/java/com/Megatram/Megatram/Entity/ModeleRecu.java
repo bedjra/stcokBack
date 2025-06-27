@@ -1,12 +1,11 @@
 package com.Megatram.Megatram.Entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name = "facture")
+@Table(name = "Modele")
 
-public class Facture {
+public class ModeleRecu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

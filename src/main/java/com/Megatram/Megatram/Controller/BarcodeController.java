@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/barcode")
 @Tag(name = "Barcode", description = "Gestion des Barcodes")
+@CrossOrigin(origins = "http://localhost:3000")
 
 public class BarcodeController {
 
