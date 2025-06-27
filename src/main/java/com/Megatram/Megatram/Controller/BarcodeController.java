@@ -12,6 +12,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource; // ✅ Bon import
 import org.springframework.core.io.UrlResource;
@@ -27,6 +28,8 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/api/barcode")
+@Tag(name = "Barcode", description = "Gestion des Barcodes")
+
 public class BarcodeController {
 
     private final ProduitRepos produitRepository;
