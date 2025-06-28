@@ -18,7 +18,7 @@ public class Entrepot {
     @OneToMany(mappedBy = "entrepot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Produit> produits = new ArrayList<>();
 
-    // 🔸 Champ calculé dynamiquement, pas stocké en base
+//     🔸 Champ calculé dynamiquement, pas stocké en base
     @Transient
     public int getQuantite() {
         return produits.stream()

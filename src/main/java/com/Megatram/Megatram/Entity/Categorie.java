@@ -9,6 +9,7 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String refCategorie;
 
     private String nom;
 
@@ -22,6 +23,14 @@ public class Categorie {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRefCategorie() {
+        return refCategorie;
+    }
+
+    public void setRefCategorie(String refCategorie) {
+        this.refCategorie = refCategorie;
     }
 
     public String getNom() {

@@ -4,10 +4,7 @@ import com.Megatram.Megatram.Dto.BarcodePrintRequestDto;
 import com.Megatram.Megatram.Entity.Produit;
 import com.Megatram.Megatram.repository.ProduitRepos;
 import com.Megatram.Megatram.service.BarcodeService;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -20,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.itextpdf.text.Document; // ✅ À utiliser
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -69,7 +65,6 @@ public class BarcodeController {
             throw new RuntimeException("Erreur de chargement de l'image du code-barres.", e);
         }
     }
-
 
 
     @Operation(summary = "Imprimer un PDF")
@@ -129,7 +124,7 @@ public class BarcodeController {
             imageCell.setBorder(Rectangle.NO_BORDER);
             imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-            PdfPCell nameCell = new PdfPCell(new com.itextpdf.text.Phrase(produit.getNom()));
+            PdfPCell nameCell = new PdfPCell(new Phrase(produit.getNom() + " - " + (i + 1)));
             nameCell.setBorder(Rectangle.NO_BORDER);
             nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 

@@ -1,5 +1,7 @@
 package com.Megatram.Megatram.Dto;
 
+import com.Megatram.Megatram.Entity.Produit;
+
 public class ProduitDto {
 
     private Long id;
@@ -12,6 +14,27 @@ public class ProduitDto {
     private Long entrepotId;
     private int qteMin;
 
+    private String categorieNom;
+    private String entrepotNom;
+
+
+    public ProduitDto() {
+        // constructeur vide requis
+    }
+
+    public ProduitDto(Produit produit) {
+        this.id = produit.getId();
+        this.nom = produit.getNom();
+        this.ref = produit.getRef();
+        this.qte = produit.getQte();
+        this.qteMin = produit.getQteMin();
+        this.prix = produit.getPrix();
+        this.codeBarre = produit.getCodeBarre();
+        this.categorieNom = produit.getCategorie() != null ? produit.getCategorie().getNom() : null;
+        this.categorieId = produit.getCategorie() != null ? produit.getCategorie().getId() : null;
+        this.entrepotNom = produit.getEntrepot() != null ? produit.getEntrepot().getNom() : null;
+        this.entrepotId = produit.getEntrepot() != null ? produit.getEntrepot().getId() : null;
+    }
     // Getters et setters
 
     public Long getEntrepotId() {
@@ -86,5 +109,19 @@ public class ProduitDto {
         this.codeBarre = codeBarre;
     }
 
+    public String getCategorieNom() {
+        return categorieNom;
+    }
 
+    public void setCategorieNom(String categorieNom) {
+        this.categorieNom = categorieNom;
+    }
+
+    public String getEntrepotNom() {
+        return entrepotNom;
+    }
+
+    public void setEntrepotNom(String entrepotNom) {
+        this.entrepotNom = entrepotNom;
+    }
 }

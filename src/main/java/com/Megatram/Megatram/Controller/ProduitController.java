@@ -8,21 +8,13 @@ import com.Megatram.Megatram.service.ProduitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/produit")
@@ -38,12 +30,6 @@ public class ProduitController {
     private ProduitService produitService;
 
 
-    @Operation(summary = "total")
-    @GetMapping("/total")
-    public ResponseEntity<Long> getNombreTotalProduits() {
-        long total = produitService.getNombreTotalProduits();
-        return ResponseEntity.ok(total);
-    }
 
     @Operation(summary = "add un produit")
     @PostMapping
@@ -154,9 +140,16 @@ public class ProduitController {
 //    }
 //
 //
+
+
+
 //    @GetMapping("/code/{codeBarre}")
 //    public ResponseEntity<?> getProduitByCode(@PathVariable String codeBarre) {
-//        Produit produit = produitRepository.findByCodeBarre(codeBarre);
+//        if (codeBarre == null || codeBarre.trim().isEmpty()) {
+//            return ResponseEntity.badRequest().body("Code-barres invalide.");
+//        }
+//
+//        Produit produit = produitRepository.findByCodeBarre(codeBarre.trim());
 //        if (produit != null) {
 //            return ResponseEntity.ok(produit);
 //        } else {
@@ -173,7 +166,8 @@ public class ProduitController {
 
         Produit produit = produitRepository.findByCodeBarre(codeBarre.trim());
         if (produit != null) {
-            return ResponseEntity.ok(produit);
+            ProduitDto dto = new ProduitDto(produit); // 👈 on renvoie le DTO
+            return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
         }

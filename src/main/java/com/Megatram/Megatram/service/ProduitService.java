@@ -48,10 +48,6 @@ public class ProduitService {
 
 
 
-    public long getNombreTotalProduits() {
-        return produitRepository.count(); // ou countAllProduits()
-    }
-
 
     public ProduitDto createProduit(ProduitDto dto) {
         Produit produit = new Produit();

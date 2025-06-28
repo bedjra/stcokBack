@@ -5,6 +5,7 @@ public class CategorieDto {
     private String nom;
     private int nProd;
     private Long id;
+    private String refCategorie;
 
 
     public String getNom() {
