@@ -117,48 +117,61 @@ public class ProduitController {
     }
 
 
-
-
-    @Operation(summary = "Get un barcode by id")
-    @GetMapping("/code/{id}")
-    public ResponseEntity<Resource> getBarcodeImageByProduitId(@PathVariable Long id) throws IOException {
-        // Recherche du produit par son ID
-        Optional<Produit> optionalProduit = produitRepository.findById(id);
-
-        if (optionalProduit.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // Construction du chemin vers l’image générée (ex: barcodes/barcode-1.png)
-        String filename = "barcode-" + id + ".png";
-        Path imagePath = Paths.get("barcodes").resolve(filename);
-
-        if (!Files.exists(imagePath)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Resource fileResource = new UrlResource(imagePath.toUri());
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(fileResource);
-    }
-
-
-    @Operation(summary = "Get un barcode by id")
-    @GetMapping(path = "/code/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<Resource> getBarcodeById(@PathVariable Long id) throws IOException {
-        Resource img = produitService.loadBarcodeImage(id);
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(img);
-    }
+//    @Operation(summary = "Get un barcode by id")
+//    @GetMapping("/code/{id}")
+//    public ResponseEntity<Resource> getBarcodeImageByProduitId(@PathVariable Long id) throws IOException {
+//        // Recherche du produit par son ID
+//        Optional<Produit> optionalProduit = produitRepository.findById(id);
+//
+//        if (optionalProduit.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        // Construction du chemin vers l’image générée (ex: barcodes/barcode-1.png)
+//        String filename = "barcode-" + id + ".png";
+//        Path imagePath = Paths.get("barcodes").resolve(filename);
+//
+//        if (!Files.exists(imagePath)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        Resource fileResource = new UrlResource(imagePath.toUri());
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.IMAGE_PNG)
+//                .body(fileResource);
+//    }
+//
+//
+//    @Operation(summary = "Get un barcode by id")
+//    @GetMapping(path = "/code/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+//    public ResponseEntity<Resource> getBarcodeById(@PathVariable Long id) throws IOException {
+//        Resource img = produitService.loadBarcodeImage(id);
+//        return ResponseEntity
+//                .ok()
+//                .contentType(MediaType.IMAGE_PNG)
+//                .body(img);
+//    }
+//
+//
+//    @GetMapping("/code/{codeBarre}")
+//    public ResponseEntity<?> getProduitByCode(@PathVariable String codeBarre) {
+//        Produit produit = produitRepository.findByCodeBarre(codeBarre);
+//        if (produit != null) {
+//            return ResponseEntity.ok(produit);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produit non trouvé");
+//        }
+//    }
 
 
     @GetMapping("/code/{codeBarre}")
     public ResponseEntity<?> getProduitByCode(@PathVariable String codeBarre) {
-        Produit produit = produitRepository.findByCodeBarre(codeBarre);
+        if (codeBarre == null || codeBarre.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Code-barres invalide.");
+        }
+
+        Produit produit = produitRepository.findByCodeBarre(codeBarre.trim());
         if (produit != null) {
             return ResponseEntity.ok(produit);
         } else {

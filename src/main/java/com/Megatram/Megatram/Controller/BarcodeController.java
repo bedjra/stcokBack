@@ -92,6 +92,7 @@ public class BarcodeController {
     }
 
 
+
     private Resource genererPdfBarcodes(Produit produit, int quantite) throws Exception {
         String codeBarre = produit.getCodeBarre();
 
@@ -106,12 +107,12 @@ public class BarcodeController {
 
         Path pdfPath = dossierBarcodes.resolve("print_" + produit.getId() + ".pdf");
 
-        Document document = new Document(PageSize.A4, 36, 75, 5, 10); // marges
+        Document document = new Document(PageSize.A4, 36, 35, 15, 5); // marges
         PdfWriter.getInstance(document, Files.newOutputStream(pdfPath));
         document.open();
 
         Image barcodeImage = Image.getInstance(barcodePath.toAbsolutePath().toString());
-        barcodeImage.scaleToFit(40f, 90f); // taille raisonnable pour bien remplir la page
+        barcodeImage.scaleToFit(100f, 60f); // ✅ taille du code-barres
 
         int columns = 3;
         int perPage = 18;
@@ -120,13 +121,27 @@ public class BarcodeController {
         PdfPTable table = createNewTable(columns);
 
         for (int i = 0; i < quantite; i++) {
-            PdfPCell cell = new PdfPCell(barcodeImage, true);
-            cell.setFixedHeight(130f); // pour 5 lignes sur la hauteur
-            cell.setBorder(Rectangle.NO_BORDER);
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            cell.setPadding(5f); // espace autour
-            table.addCell(cell);
+            // ✅ Mini-table verticale contenant image + nom
+            PdfPTable innerTable = new PdfPTable(1);
+            innerTable.setWidthPercentage(100);
+
+            PdfPCell imageCell = new PdfPCell(barcodeImage, true);
+            imageCell.setBorder(Rectangle.NO_BORDER);
+            imageCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            PdfPCell nameCell = new PdfPCell(new com.itextpdf.text.Phrase(produit.getNom()));
+            nameCell.setBorder(Rectangle.NO_BORDER);
+            nameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            innerTable.addCell(imageCell);
+            innerTable.addCell(nameCell);
+
+            PdfPCell outerCell = new PdfPCell(innerTable);
+            outerCell.setFixedHeight(130f);
+            outerCell.setBorder(Rectangle.NO_BORDER);
+            outerCell.setPadding(5f);
+
+            table.addCell(outerCell);
             count++;
 
             if (count % perPage == 0) {
@@ -136,12 +151,11 @@ public class BarcodeController {
             }
         }
 
-        // Ajouter le reste si on n’a pas terminé une page complète
         if (count % perPage != 0) {
             int reste = perPage - (count % perPage);
             for (int i = 0; i < reste; i++) {
                 PdfPCell empty = new PdfPCell();
-                empty.setFixedHeight(130f); // même hauteur pour garder l'alignement
+                empty.setFixedHeight(130f);
                 empty.setBorder(Rectangle.NO_BORDER);
                 table.addCell(empty);
             }
@@ -150,9 +164,9 @@ public class BarcodeController {
 
         document.close();
 
-        // Retourner le fichier comme ressource téléchargeable
         return new FileSystemResource(pdfPath.toFile());
     }
+
 
     // Méthode utilitaire pour créer une nouvelle table bien configurée
     private PdfPTable createNewTable(int columns) {
@@ -165,4 +179,10 @@ public class BarcodeController {
         table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
         return table;
     }
+
+
+
+
+
+
 }

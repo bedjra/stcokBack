@@ -269,22 +269,11 @@ public class ProduitService {
 
 
 
-    public UrlResource loadBarcodeImage(Long id) throws MalformedURLException {
-        Produit produit = produitRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produit non trouvé: " + id));
 
-        String codeBarre = produit.getCodeBarre();
-        if (codeBarre == null || codeBarre.isBlank()) {
-            throw new RuntimeException("Pas de code-barres défini pour le produit: " + id);
-        }
 
-        Path imagePath = dossierBarcodes.resolve(codeBarre + ".png");
-        if (!Files.exists(imagePath)) {
-            throw new RuntimeException("Fichier code-barres introuvable pour: " + codeBarre);
-        }
 
-        return new UrlResource(imagePath.toUri());
-    }
+
+
 
 }
 
