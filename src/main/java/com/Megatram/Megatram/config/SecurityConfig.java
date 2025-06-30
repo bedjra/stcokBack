@@ -18,18 +18,7 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable()) // désactive CSRF pour API REST
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/**").permitAll() // endpoints publics (login, register)
-//                        .anyRequest().authenticated()                // le reste nécessite un token
-//                )
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // ajoute ton filtre JWT
-//
-//        return http.build();
-//    }
+
 
 
     @Bean
@@ -38,12 +27,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",               // tes endpoints publics
-                                "/v3/api-docs/**",            // swagger JSON doc
-                                "/swagger-ui/**",             // swagger UI
-                                "/swagger-ui.html",           // (si utilisé)
-                                "/swagger-resources/**",      // pour les ressources swagger
-                                "/webjars/**"                 // ressources statiques de swagger
+                                "/api/auth/**",               // Endpoints d'auth
+                                "/v3/api-docs/**",            // Swagger
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**",
+                                "/error"                      // Optionnel mais évite 403 sur erreurs
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -51,6 +41,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 
     @Bean

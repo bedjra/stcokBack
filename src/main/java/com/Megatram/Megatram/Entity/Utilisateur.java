@@ -15,7 +15,6 @@ public class Utilisateur {
     private long id;
 
 
-    private String nom;
 
     @Email(message = "Email invalide")
     @Column(unique = true)
@@ -39,13 +38,6 @@ public class Utilisateur {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     public String getEmail() {
         return email;

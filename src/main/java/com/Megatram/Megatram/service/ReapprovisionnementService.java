@@ -84,14 +84,17 @@ public class ReapprovisionnementService {
             ReapprovisionnementResponseDto dto = new ReapprovisionnementResponseDto();
             dto.source = reappro.getSource();
             dto.agent = reappro.getAgent();
+            dto.date = reappro.getDate();
+            dto.id = reappro.getId();
 
             List<LigneReapprovisionnement> lignes = ligneRepo.findByReapprovisionnement(reappro);
             dto.lignes = lignes.stream().map(ligne -> {
                 LigneReapprovisionnementResponseDto ligneDto = new LigneReapprovisionnementResponseDto();
                 ligneDto.id = ligne.getId();
                 ligneDto.produitId = ligne.getProduit().getId();
-                ligneDto.produitNom = ligne.getProduit().getNom(); // assure-toi que getNom() existe
+                ligneDto.produitNom = ligne.getProduit().getNom();
                 ligneDto.qteAjoutee = ligne.getQteAjoutee();
+                ligneDto.entrepotNom = ligne.getEntrepotNom();
                 ligneDto.entrepotNom = ligne.getEntrepotNom();
                 return ligneDto;
             }).toList();
@@ -117,6 +120,7 @@ public class ReapprovisionnementService {
             ligneDto.produitId = l.getProduit().getId();
             ligneDto.qteAjoutee = l.getQteAjoutee();
             ligneDto.entrepotNom = l.getEntrepotNom();
+            ligneDto.produitNom = l.getProduit().getNom();
             return ligneDto;
         }).collect(Collectors.toList());
 

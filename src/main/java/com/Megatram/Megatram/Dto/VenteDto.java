@@ -1,75 +1,69 @@
-//package com.Megatram.Megatram.Dto;
-//
-//import java.util.Date;
-//import java.util.List;
-//
-//public class VenteDto {
-//
-//    private Long id;
-//    private String client;
-//    private double total;
-//    private double paye;
-//    private double reste;
-//    private Date date;
-//    private Long factureId;
-//
-//    // Getters & Setters
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getClient() {
-//        return client;
-//    }
-//
-//    public void setClient(String client) {
-//        this.client = client;
-//    }
-//
-//
-//
-//    public double getTotal() {
-//        return total;
-//    }
-//
-//    public void setTotal(double total) {
-//        this.total = total;
-//    }
-//
-//    public double getPaye() {
-//        return paye;
-//    }
-//
-//    public void setPaye(double paye) {
-//        this.paye = paye;
-//    }
-//
-//    public double getReste() {
-//        return reste;
-//    }
-//
-//    public void setReste(double reste) {
-//        this.reste = reste;
-//    }
-//
-//    public Date getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.date = date;
-//    }
-//
-//    public Long getFactureId() {
-//        return factureId;
-//    }
-//
-//    public void setFactureId(Long factureId) {
-//        this.factureId = factureId;
-//    }
-//}
+package com.Megatram.Megatram.Dto;
+
+import java.util.List;
+
+public class VenteDto {
+    private Long id;
+    private String ref;
+    private String caissier;
+    private String clientNom;
+    private long clientId;
+    private double paiement;
+    private List<LigneVenteDto> lignes;
+
+    public long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    public String getCaissier() {
+        return caissier;
+    }
+
+    public void setCaissier(String caissier) {
+        this.caissier = caissier;
+    }
+
+    public String getClientNom() {
+        return clientNom;
+    }
+
+    public void setClientNom(String clientNom) {
+        this.clientNom = clientNom;
+    }
+
+    public double getPaiement() {
+        return paiement;
+    }
+
+    public void setPaiement(double paiement) {
+        this.paiement = paiement;
+    }
+
+    public List<LigneVenteDto> getLignes() {
+        return lignes;
+    }
+
+    public void setLignes(List<LigneVenteDto> lignes) {
+        this.lignes = lignes;
+    }
+}
