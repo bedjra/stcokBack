@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CategorieRep extends JpaRepository<Categorie, Long> {
+public interface  CategorieRep extends JpaRepository<Categorie, Long> {
     Optional<Categorie> findByNom(String nom);
 
 }

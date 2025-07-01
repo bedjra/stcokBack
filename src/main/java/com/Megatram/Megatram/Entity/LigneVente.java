@@ -13,6 +13,7 @@ public class LigneVente {
 
     private Long produitId;
 
+
     private int qteVendu;
 
     private double produitPrix;
@@ -29,7 +30,7 @@ public class LigneVente {
         this.total = this.qteVendu * this.produitPrix;
     }
 
-    // Getters et Setters
+    // Getters et Setters
 
 
     public Long getId() {
@@ -79,4 +80,6 @@ public class LigneVente {
     public void setVente(Vente vente) {
         this.vente = vente;
     }
+
+
 }
